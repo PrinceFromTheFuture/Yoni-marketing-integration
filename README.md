@@ -1,4 +1,4 @@
-# Google Analytics Purchases Tracking Examples
+# Google Analytics E-commerce Tracking Examples
 
 ## What is GA4 and Why Do We Need It?
 
@@ -35,6 +35,18 @@ Your campaign marketer is likely pushing for GA4 e-commerce tracking because:
 5. **They're accountable**: Marketing teams are often measured on metrics like "revenue generated" or "cost per acquisition." Without proper tracking, they can't prove their value to the company.
 
 **Bottom line**: Implementing GA4 purchase tracking is like installing a speedometer in a car - you can drive without it, but you won't know how fast you're going or if you're making progress toward your destination. For marketers, purchase tracking is essential for proving their value and making informed decisions about where to invest marketing dollars.
+
+---
+
+## ⚠️ Critical Requirement
+
+**IMPORTANT**: The `purchase` event **MUST** be triggered on **every single purchase** that occurs in your application. This is not optional - if purchases aren't tracked, the marketing team cannot measure campaign effectiveness, ROI, or optimize ad spend. Missing even one purchase means incomplete data and inaccurate reporting.
+
+Make sure to:
+- Trigger the event immediately after a successful purchase is confirmed
+- Include it in your payment success/confirmation flow
+- Test that it fires reliably for all purchase types (one-time payments, subscriptions, upgrades, etc.)
+- Never skip tracking, even for test purchases or refunded orders (you can filter these in GA4 later if needed)
 
 ---
 
@@ -129,9 +141,11 @@ Example of the complete purchase event object structure:
 
 ## Notes
 
+- **CRITICAL**: The `purchase` event **MUST** be triggered on **every single purchase** - this is non-negotiable for accurate marketing analytics
 - Always clear the previous ecommerce object by pushing `{ ecommerce: null }` before pushing new purchase data
 - The `dataLayer` must be initialized before use: `window.dataLayer = window.dataLayer || []`
 - In React components, use `useEffect` to ensure tracking happens after the component mounts and transaction data is available
+- Trigger the event immediately after purchase confirmation - don't delay or skip it
 - `value` should be a Number, not a string
 - `currency` should be in 3-letter ISO 4217 format (e.g., "USD", "EUR")
 - `tax` and `shipping` are optional fields
